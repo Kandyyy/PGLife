@@ -1,0 +1,29 @@
+
+#container{
+    margin-top: 100px;
+}
+
+#row{
+    width: 100%;
+    height: 200px;
+}
+
+
+.user-pfp{
+    width: 55%;
+    border-radius: 50%;
+}
+
+.user-info{
+    margin-top: 60px;
+}
+
+.colorB{
+    background-color: beige;
+    margin-top: 50px;
+}
+
+.properties-title{
+    text-align: center;
+    margin-top: 25px;
+}
