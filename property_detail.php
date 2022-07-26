@@ -44,15 +44,15 @@ if(isset($_SESSION["user_id"])){
         echo "An error occured";
         exit;
     }
-    $prop_id = $property["id"];
-    $sql = "SELECT * FROM amenities_properties ap INNER JOIN amenities a ON ap.amenities_id = a.id WHERE ap.properties_id = '$prop_id'";
-    $result = mysqli_query($conn,$sql);
-    if(!$result){
-        echo "An error occured";
-        exit;
-    }
-    $amenities = mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
+$prop_id = $property["id"];
+$sql = "SELECT * FROM amenities_properties ap INNER JOIN amenities a ON ap.amenities_id = a.id WHERE ap.properties_id = '$prop_id'";
+$result = mysqli_query($conn,$sql);
+if(!$result){
+    echo "An error occured";
+    exit;
+}
+$amenities = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>
 
 <head>
@@ -157,57 +157,62 @@ if(isset($_SESSION["user_id"])){
             <div class="row justify-content-between">
                 <div class="col-md-auto">
                     <h5>Building</h5>
-                    <div class="amenity-container">
-                        <img src="img/amenities/powerbackup.svg">
-                        <span>Power backup</span>
-                    </div>
-                    <div class="amenity-container">
-                        <img src="img/amenities/lift.svg">
-                        <span>Lift</span>
-                    </div>
+                    <?php
+                        foreach ($amenities as $amenity) {
+                            if($amenity["type"] == "Building"){ ?>
+                            <div class="amenity-container">
+                                <img src="img/amenities/<?= $amenity["icon"] ?>.svg">
+                                <span><?=$amenity["name"]?></span>
+                            </div>
+                            <?php
+                            }
+                        }
+                    ?>
                 </div>
 
                 <div class="col-md-auto">
                     <h5>Common Area</h5>
-                    <div class="amenity-container">
-                        <img src="img/amenities/wifi.svg">
-                        <span>Wifi</span>
-                    </div>
-                    <div class="amenity-container">
-                        <img src="img/amenities/tv.svg">
-                        <span>TV</span>
-                    </div>
-                    <div class="amenity-container">
-                        <img src="img/amenities/rowater.svg">
-                        <span>Water Purifier</span>
-                    </div>
-                    <div class="amenity-container">
-                        <img src="img/amenities/dining.svg">
-                        <span>Dining</span>
-                    </div>
-                    <div class="amenity-container">
-                        <img src="img/amenities/washingmachine.svg">
-                        <span>Washing Machine</span>
-                    </div>
+                    <?php
+                        foreach ($amenities as $amenity) {
+                            if($amenity["type"] == "Common Area"){ ?>
+                            <div class="amenity-container">
+                                <img src="img/amenities/<?= $amenity["icon"] ?>.svg">
+                                <span><?=$amenity["name"]?></span>
+                            </div>
+                            <?php
+                            }
+                        }
+                    ?>
                 </div>
 
                 <div class="col-md-auto">
                     <h5>Bedroom</h5>
-                    <div class="amenity-container">
-                        <img src="img/amenities/bed.svg">
-                        <span>Bed with Matress</span>
-                    </div>
-                    <div class="amenity-container">
-                        <img src="img/amenities/ac.svg">
-                        <span>Air Conditioner</span>
-                    </div>
+                    <?php
+                        foreach ($amenities as $amenity) {
+                            if($amenity["type"] == "Bedroom"){ ?>
+                            <div class="amenity-container">
+                                <img src="img/amenities/<?= $amenity["icon"] ?>.svg">
+                                <span><?=$amenity["name"]?></span>
+                            </div>
+                            <?php
+                            }
+                        }
+                    ?>
                 </div>
 
                 <div class="col-md-auto">
                     <h5>Washroom</h5>
-                    <div class="amenity-container">
-                        <img src="img/amenities/geyser.svg">
-                        <span>Geyser</span>
+                    <?php
+                        foreach ($amenities as $amenity) {
+                            if($amenity["type"] == "Washroom"){ ?>
+                            <div class="amenity-container">
+                                <img src="img/amenities/<?= $amenity["icon"] ?>.svg">
+                                <span><?=$amenity["name"]?></span>
+                            </div>
+                            <?php
+                            }
+                        }
+                    ?>
                     </div>
                 </div>
             </div>
