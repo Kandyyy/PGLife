@@ -1,9 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php 
+session_start();
+include "includes/header.php" ; 
+require("includes/database_connect.php");
+$property_name = $_GET["property_name"];
+$city_name = $_GET["city_name"];
+$sql = "SELECT * FROM properties WHERE name='$property_name'";
+$result = mysqli_query($conn, $sql);
+if(!$result){
+    echo "An error occured";
+    exit;
+}
+$properties = mysqli_fetch_all($result, MYSQLI_ASSOC);
+foreach($properties as $property){
+    $property_image = glob("img/properties/".$property["id"]."/*");
+}
+function male_female($gender){
+    if($gender == "male"){
+        return "img/male.png";
+    }
+    else if($gender == "female"){
+        return "img/female.png";
+    }
+    else{
+        return "img/unisex.png";
+    }
+}
+$id = $property["id"];
+$sql = "SELECT * FROM testimonials WHERE property_id = '$id'";
+$result = mysqli_query($conn,$sql);
+if(!$result){
+    echo "An error occured";
+    exit;
+}
+$testimonials = mysqli_fetch_assoc($result);
+if(isset($_SESSION["user_id"])){
+    $user_id = $_SESSION["user_id"];
+    $sql = "SELECT * FROM interested_users_properties up INNER JOIN properties p ON up.property_id = p.id WHERE up.user_id = '$user_id'";
+    $result = mysqli_query($conn,$sql);
+    if(!$result){
+        echo "An error occured";
+        exit;
+    }
+    $prop_id = $property["id"];
+    $sql = "SELECT * FROM amenities_properties ap INNER JOIN amenities a ON ap.amenities_id = a.id WHERE ap.properties_id = '$prop_id'";
+    $result = mysqli_query($conn,$sql);
+    if(!$result){
+        echo "An error occured";
+        exit;
+    }
+    $amenities = mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+?>
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ganpati Paying Guest | PG Life</title>
+    <title><?= $_GET["property_name"] ?> | PG Life</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" rel="stylesheet" />
@@ -13,27 +67,26 @@
 </head>
 
 <body>
-<?php 
-session_start();
-include "includes/header.php" ; ?>
-
     <div id="loading">
     </div>
-
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb py-2">
             <li class="breadcrumb-item">
                 <a href="index.php">Home</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="property_list.php">Mumbai</a>
+                <a href="property_list.php"><?=$city_name?></a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Ganpati Paying Guest
+                <?= $property_name ?>
             </li>
         </ol>
     </nav>
-
+    <?php
+        $rating_clean = $property["rating_clean"];
+        $rating_food = $property["rating_food"];
+        $rating_safe = $property["rating_safe"];
+    ?>
     <div id="property-images" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#property-images" data-slide-to="0" class="active"></li>
@@ -42,13 +95,13 @@ include "includes/header.php" ; ?>
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="img/properties/1/1d4f0757fdb86d5f.jpg" alt="slide">
+                <img class="d-block w-100" src=<?= $property_image[0] ?> alt="slide">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="img/properties/1/46ebbb537aa9fb0a.jpg" alt="slide">
+                <img class="d-block w-100" src=<?= $property_image[1] ?> alt="slide">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="img/properties/1/eace7b9114fd6046.jpg" alt="slide">
+                <img class="d-block w-100" src=<?= $property_image[2] ?> alt="slide">
             </div>
         </div>
         <a class="carousel-control-prev" href="#property-images" role="button" data-slide="prev">
@@ -70,6 +123,9 @@ include "includes/header.php" ; ?>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
             </div>
+            <?php
+
+            ?>
             <div class="interested-container">
                 <i class="is-interested-image far fa-heart"></i>
                 <div class="interested-text">
@@ -78,15 +134,15 @@ include "includes/header.php" ; ?>
             </div>
         </div>
         <div class="detail-container">
-            <div class="property-name">Ganpati Paying Guest</div>
-            <div class="property-address">Police Beat, Sainath Complex, Besides, SV Rd, Daulat Nagar, Borivali East, Mumbai - 400066</div>
+            <div class="property-name"><?= $property_name ?></div>
+            <div class="property-address"><?= $property["address"] ?></div>
             <div class="property-gender">
-                <img src="img/unisex.png" />
+                <img src=<?= male_female($property["gender"]) ?> />
             </div>
         </div>
         <div class="row no-gutters">
             <div class="rent-container col-6">
-                <div class="rent">Rs 8,500/-</div>
+                <div class="rent"><?= $property["rent"] ?></div>
                 <div class="rent-unit">per month</div>
             </div>
             <div class="button-container col-6">
@@ -160,7 +216,7 @@ include "includes/header.php" ; ?>
 
     <div class="property-about page-container">
         <h1>About the Property</h1>
-        <p>Furnished studio apartment - share it with close friends! Located in posh area of Bijwasan in Delhi, this house is available for both boys and girls. Go for a private room or opt for a shared one and make it your own abode. Go out with your new friends - catch a movie at the nearest cinema hall or just chill in a cafe which is not even 2 kms away. Unwind with your flatmates after a long day at work/college. With a common living area and a shared kitchen, make your own FRIENDS moments. After all, there's always a Joey with unlimited supply of food. Remember, all it needs is one crazy story to convert a roomie into a BFF. What's nearby/Your New Neighborhood 4.0 Kms from Dwarka Sector- 21 Metro Station.</p>
+        <p><?= $property["description"] ?></p>
     </div>
 
     <div class="property-rating">
@@ -173,12 +229,23 @@ include "includes/header.php" ; ?>
                             <i class="rating-criteria-icon fas fa-broom"></i>
                             <span class="rating-criteria-text">Cleanliness</span>
                         </div>
-                        <div class="rating-criteria-star-container col-6" title="4.3">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
+                        <div class="rating-criteria-star-container col-6" title="<?= $rating_clean ?>">
+                        <?php for ($i = 0; $i < 5; $i++) {
+                                if ($rating_clean >= $i + 0.8) {
+                            ?>
+                                    <i class="fas fa-star"></i>
+                                <?php
+                                } elseif ($rating_clean >= $i + 0.3) {
+                                ?>
+                                    <i class="fas fa-star-half-alt"></i>
+                                <?php
+                                } else {
+                                ?>
+                                    <i class="far fa-star"></i>
+                            <?php
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
 
@@ -187,39 +254,76 @@ include "includes/header.php" ; ?>
                             <i class="rating-criteria-icon fas fa-utensils"></i>
                             <span class="rating-criteria-text">Food Quality</span>
                         </div>
-                        <div class="rating-criteria-star-container col-6" title="3.4">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <i class="far fa-star"></i>
+                        <div class="rating-criteria-star-container col-6" <?=$rating_food?>>
+                        <?php for ($i = 0; $i < 5; $i++) {
+                                if ($rating_food >= $i + 0.8) {
+                            ?>
+                                    <i class="fas fa-star"></i>
+                                <?php
+                                } elseif ($rating_food >= $i + 0.3) {
+                                ?>
+                                    <i class="fas fa-star-half-alt"></i>
+                                <?php
+                                } else {
+                                ?>
+                                    <i class="far fa-star"></i>
+                            <?php
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
-
                     <div class="rating-criteria row">
                         <div class="col-6">
                             <i class="rating-criteria-icon fa fa-lock"></i>
                             <span class="rating-criteria-text">Safety</span>
                         </div>
-                        <div class="rating-criteria-star-container col-6" title="4.8">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
+                        <div class="rating-criteria-star-container col-6" title=<?=$rating_safe?>>
+                        <?php   for ($i = 0; $i < 5; $i++) {
+                                if ($rating_safe >= $i + 0.8) {
+                            ?>
+                                    <i class="fas fa-star"></i>
+                                <?php
+                                } elseif ($rating_safe >= $i + 0.3) {
+                                ?>
+                                    <i class="fas fa-star-half-alt"></i>
+                                <?php
+                                } else {
+                                ?>
+                                    <i class="far fa-star"></i>
+                            <?php
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
-
+                <?php 
+                      $total_rating = ($property['rating_clean'] + $property['rating_food'] + $property['rating_safe']) / 3;
+                      $total_rating = round($total_rating, 1); 
+                ?>
                 <div class="col-md-4">
                     <div class="rating-circle">
-                        <div class="total-rating">4.2</div>
+                        <div class="total-rating"><?= $total_rating ?></div>
                         <div class="rating-circle-star-container">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
+                        <?php
+                            $rating = $total_rating;
+                            for ($i = 0; $i < 5; $i++) {
+                                if ($rating >= $i + 0.8) {
+                            ?>
+                                    <i class="fas fa-star"></i>
+                                <?php
+                                } elseif ($rating >= $i + 0.3) {
+                                ?>
+                                    <i class="fas fa-star-half-alt"></i>
+                                <?php
+                                } else {
+                                ?>
+                                    <i class="far fa-star"></i>
+                            <?php
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -235,19 +339,9 @@ include "includes/header.php" ; ?>
             </div>
             <div class="testimonial-text">
                 <i class="fa fa-quote-left" aria-hidden="true"></i>
-                <p>You just have to arrive at the place, it's fully furnished and stocked with all basic amenities and services and even your friends are welcome.</p>
+                <p><?= $testimonials["content"] ?></p>
             </div>
-            <div class="testimonial-name">- Ashutosh Gowariker</div>
-        </div>
-        <div class="testimonial-block">
-            <div class="testimonial-image-container">
-                <img class="testimonial-img" src="img/man.png">
-            </div>
-            <div class="testimonial-text">
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-                <p>You just have to arrive at the place, it's fully furnished and stocked with all basic amenities and services and even your friends are welcome.</p>
-            </div>
-            <div class="testimonial-name">- Karan Johar</div>
+            <div class="testimonial-name">- <?= $testimonials["user_name"] ?></div>
         </div>
     </div>
 

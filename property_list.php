@@ -34,6 +34,10 @@
     else{
         $user_id = NULL;
     }
+    if(!isset($_GET["city"])){
+        header("location: index.php");
+        exit;
+    }
     $city_name = $_GET["city"];
     $sql1 = "SELECT * FROM cities WHERE name = '$city_name'";
     $result = mysqli_query($conn,$sql1);
@@ -171,7 +175,7 @@
                         <div class="rent-unit">per month</div>
                     </div>
                     <div class="button-container col-6">
-                        <a href="property_detail.php" class="btn btn-primary">View</a>
+                        <a href="property_detail.php?city_name=<?=$city_name?>&property_name=<?=$property['name']?>"  class="btn btn-primary">View</a>
                     </div>
                 </div>
             </div>
