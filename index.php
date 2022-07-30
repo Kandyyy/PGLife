@@ -47,6 +47,7 @@
 
 <?php include "includes/footer.php";?>
 <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script src="js/common.js"></script>
 </body>
 </html>

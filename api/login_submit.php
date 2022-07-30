@@ -8,32 +8,32 @@ $password = $_POST["password"];
 $sql = "SELECT * FROM users WHERE email = '$email'";
 $result = mysqli_query($conn,$sql);
 if(!$result){
-    echo "An error occured";
-    exit;
+    $response = array("success" => false, "msg"=>"An error occured");
+    echo json_encode($response);
+    return;
 }
 else if(mysqli_num_rows($result) == 0){
-    echo "Account not found. Please register first.";
-    exit;
+    $response = array("success" => false, "msg"=>"Account not found. Please register first.");
+    echo json_encode($response);
+    return;
 }
 
 $sql = "SELECT * FROM users WHERE email = '$email' and pass = '$password'";
 $result = mysqli_query($conn,$sql);
 if(!$result){
-    echo "An error occured.";
-    exit;
+    $response = array("success" => false, "msg"=>"An error occured");
+    echo json_encode($response);
+    return;
 }
 else if(mysqli_num_rows($result) == 0){
-    echo "User not found.";
-    exit;
+    $response = array("success" => false, "msg"=>"User not found");
+    echo json_encode($response);
+    return;
 }
 $row = mysqli_fetch_assoc($result);
-if ($row){
-    $_SESSION["user_id"] = $row["id"];
-    header("location: ../dashboard.php");
-    exit;
-}
-
-
+$_SESSION["user_id"] = $row["id"];
+$response = array("success" => true, "msg"=>"Login Successful!");
+echo json_encode($response);
 
 mysqli_close($conn);
 ?>
