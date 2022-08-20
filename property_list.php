@@ -28,6 +28,8 @@
     session_start();
     include "includes/header.php"; 
     require "includes/database_connect.php";
+    include "includes/signup_modal.php";
+    include "includes/login_modal.php";
     if(isset($_SESSION["user_id"])){
         $user_id = $_SESSION["user_id"];
     }
@@ -175,7 +177,7 @@
                         <div class="rent-unit">per month</div>
                     </div>
                     <div class="button-container col-6">
-                        <a href="property_detail.php?city_name=<?=$city_name?>&property_name=<?=$property['name']?>"  class="btn btn-primary">View</a>
+                        <a href="property_detail.php?city_id=<?=$city_id?>&property_name=<?=$property['name']?>"  class="btn btn-primary">View</a>
                     </div>
                 </div>
             </div>
@@ -213,10 +215,7 @@
 
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <?php
-    include "includes/signup_modal.php";
-    include "includes/login_modal.php";
-    ?>
+    <script src="js/common.js"></script>
 </body>
 
 </html>

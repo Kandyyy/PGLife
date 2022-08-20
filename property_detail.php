@@ -3,10 +3,21 @@
 
 <?php 
 session_start();
-include "includes/header.php" ; 
+include "includes/header.php"; 
+include "includes/login_modal.php";
+include "includes/signup_modal.php";
 require("includes/database_connect.php");
 $property_name = $_GET["property_name"];
-$city_name = $_GET["city_name"];
+$city_id = $_GET["city_id"];
+$sql = "SELECT name FROM cities WHERE id='$city_id'";
+$result = mysqli_query($conn, $sql);
+if(!$result){
+    echo "An error occured";
+    exit;
+}
+$name = mysqli_fetch_assoc($result);
+$city_name = $name["name"];
+
 $sql = "SELECT * FROM properties WHERE name='$property_name'";
 $result = mysqli_query($conn, $sql);
 if(!$result){
@@ -53,6 +64,14 @@ if(!$result){
     exit;
 }
 $amenities = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$sql = "SELECT * FROM interested_users_properties iup INNER JOIN properties p ON iup.property_id = p.id WHERE p.name = '$property_name'"; 
+$result = mysqli_query($conn,$sql);
+if(!$result){
+    echo "An error occured";
+    exit;
+}
+$data = mysqli_fetch_all($result,MYSQLI_ASSOC);
+$interested_users = count($data);
 ?>
 
 <head>
@@ -75,7 +94,7 @@ $amenities = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 <a href="index.php">Home</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="property_list.php"><?=$city_name?></a>
+                <a href="property_list.php?city=<?=$city_name?>"><?=$city_name?></a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 <?= $property_name ?>
@@ -129,7 +148,7 @@ $amenities = mysqli_fetch_all($result, MYSQLI_ASSOC);
             <div class="interested-container">
                 <i class="is-interested-image far fa-heart"></i>
                 <div class="interested-text">
-                    <span class="interested-user-count">6</span> interested
+                    <span class="interested-user-count"><?= $interested_users ?></span> interested
                 </div>
             </div>
         </div>
@@ -485,6 +504,7 @@ include "includes/footer.php";
 
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script src="js/common.js"></script>
 </body>
 
 </html>
