@@ -101,9 +101,9 @@
             </div>
         </div>
         <?php
-        foreach ($properties as $property) {
-            $property_image = glob("img/properties/".$property["id"]."/*");
-            }
+            foreach ($properties as $property) {
+                $property_image = glob("img/properties/".$property["id"]."/*");
+                }
         ?>
         <?php foreach($properties as $property): ?>
         <div class="property-card row">
