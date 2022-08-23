@@ -163,7 +163,7 @@ function male_female($gender){
                         <div class="rent-unit">per month</div>
                     </div>
                     <div class="button-container col-6">
-                        <a href="property_detail.php?city_id=<?= $property["city_id"] ?>&property_name=<?=$property['name']?>"  class="btn btn-primary">View</a>
+                        <a href="property_detail.php?property_id=<?= $property["id"] ?>&city_id=<?= $property["city_id"] ?>&property_name=<?=$property['name']?>"  class="btn btn-primary">View</a>
                     </div>
                 </div>
             </div>
