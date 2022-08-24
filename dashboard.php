@@ -61,11 +61,11 @@ function male_female($gender){
     </nav>
     <div class="container" id="container">
         <div class="row" id="row">
-            <div class="col-3">
-                <h1>My Profile</h1>
-                <img src="img/man.png" alt="" class="user-pfp">
+            <div class="col-sm-12 col-md-3">
+                <h1 class="myProfile">My Profile</h1>
+                <img src="img/man.png" alt="profilepic" class="user-pfp">
             </div>
-            <div class="col-7">
+            <div class="col">
                 <div class="user-info">
                     <h3><?= $data["name"]; ?></h3>
                     <h6><?= $data["email"] ?></h6>
