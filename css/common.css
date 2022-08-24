@@ -196,11 +196,40 @@ input[type="radio"] {
     position: relative;
 }
 
-.sub-div{
-    width: 50%;
-    position: absolute;
-    top: 40%;
-    left: 25%;
+@media(max-width: 767px){
+    .sub-div{
+        width: 50%;
+        position: absolute;
+        top: 20%;
+        left: 25%;
+    }
+}
+
+@media(min-width: 768px) and (max-width: 991px){
+    .sub-div{
+        width: 50%;
+        position: absolute;
+        top: 30%;
+        left: 25%;
+    }
+}
+
+@media(min-width: 992px) and (max-width: 1199px){
+    .sub-div{
+        width: 50%;
+        position: absolute;
+        top: 35%;
+        left: 25%;
+    }
+}
+
+@media(min-width: 1200px){
+        .sub-div{
+        width: 50%;
+        position: absolute;
+        top: 40%;
+        left: 25%;
+    }
 }
 
 @media(max-width:400px) and (min-width:375px){
