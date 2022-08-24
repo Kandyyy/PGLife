@@ -72,6 +72,13 @@ if(!$result){
 }
 $data = mysqli_fetch_all($result,MYSQLI_ASSOC);
 $interested_users = count($data);
+$sql3 = "SELECT * FROM interested_users_properties iup INNER JOIN properties p ON iup.property_id = p.id WHERE p.city_id = '$city_id'";
+$result = mysqli_query($conn, $sql3);
+if(!$result){
+    echo "An error occured.";
+    exit;
+}
+$interested_properties = mysqli_fetch_all($result,MYSQLI_ASSOC);
 ?>
 
 <head>
@@ -142,11 +149,27 @@ $interested_users = count($data);
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
             </div>
-            <?php
-
-            ?>
             <div class="interested-container">
+                <?php
+                    $interested = false;
+                    if(isset($_SESSION["user_id"])){
+                        foreach ($interested_properties as $interested_property){
+                                if($interested_property["user_id"] == $user_id && $interested_property["property_id"] == $prop_id){
+                                    $interested = true;
+                                }
+                            }
+                    }
+                    if($interested){
+                ?>
+                <i class="is-interested-image fas fa-heart"></i>
+                <?php 
+                    }
+                    else{
+                ?>        
                 <i class="is-interested-image far fa-heart"></i>
+                <?php
+                    }
+                ?>
                 <div class="interested-text">
                     <span class="interested-user-count"><?= $interested_users ?></span> interested
                 </div>
