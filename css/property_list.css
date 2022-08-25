@@ -59,6 +59,10 @@
     text-align: center;
 }
 
+.is-interested:hover{
+    cursor:default;
+}
+
 .interested-container i {
     color: #EA322E;
     font-size: 20px;

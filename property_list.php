@@ -150,14 +150,16 @@
                             }
                         ?>
                         <?php if($interested){ ?>
-                            <i class="fas fa-heart"></i>
+                            <i class="is-interested fas fa-heart"></i>
                         <?php }
                         else{ ?>
-                        <i class="far fa-heart"></i>
+                        <i class="is-interested far fa-heart"></i>
                         <?php } 
                         ?>
                         
-                        <div class="interested-text"><?= $interested_users ?></div>
+                        <div class="interested-text">
+                            <span class="interested-user-count"><?= $interested_users ?></span> interested
+                        </div>
                     </div>
                 </div>
                 <div class="detail-container">
@@ -216,6 +218,7 @@
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script src="js/common.js"></script>
+    <script src="js/property_list.js"></script>
 </body>
 
 </html>
