@@ -3,14 +3,14 @@
 
 **Index Page**
 
-![Index Page](/img/indexpage.png)
+![Index Page](/gitimg/indexpage.png)
 
 **Dashboard**
 
-![Dashboard Page](/img/dashboardimage.png)
+![Dashboard Page](/gitimg/dashboardimage.png)
 
 **Property List**
 
-![Dashboard Page](/img/proplist.png)
+![Dashboard Page](/gitimg/proplist.png)
 
 **Some parts of the front-end have been copy-pasted however all of the backend has been completely re-written.**
