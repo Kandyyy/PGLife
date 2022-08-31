@@ -7,15 +7,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php
     include "includes/head_links.php";
+    include "includes/header.php";
+    include "includes/signup_modal.php"; 
+    include "includes/login_modal.php";
   ?>
   <title>Welcome|PG Life</title>
 </head>
 
 <body>
-<?php include "includes/header.php" ?>
-
-<div id="loading">
-</div>
+  <div id="loading">
+  </div>
   <div class="banner-container">
     <img src="img/bg.png" alt="" class="imgIndex">
     <div class="sub-div">
@@ -27,7 +28,7 @@
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
           </svg></button>
         </form>
-    </div>
+      </div>
     </div>
   </div>
   <div class="cities-div">
@@ -37,17 +38,9 @@
     <a href="property_list.php?city=Bengaluru" class="cities"><img src="img/bangalore.png" alt="" style="width: 130px;box-shadow:4px 4px 8px rgb(47, 46, 46);"></a>
     <a href="property_list.php?city=Hyderabad" class="cities"><img src="img/hyderabad.png" alt="" style="width: 130px;box-shadow:4px 4px 8px rgb(47, 46, 46);"></a>
   </div>
-  <?php
-  include "includes/signup_modal.php";?>
-</div>
-
-<?php
- include "includes/login_modal.php";
- ?>
-
-<?php include "includes/footer.php";?>
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script src="js/common.js"></script>
+  <?php include "includes/footer.php";?>
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script src="js/common.js"></script>
 </body>
 </html>
